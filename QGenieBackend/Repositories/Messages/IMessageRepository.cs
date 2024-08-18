@@ -5,6 +5,6 @@ namespace QGenieBackend.Repositories.Messages
 {
     public interface IMessageRepository : IBaseRepository<Message>
     {
-        Task<IEnumerable<Message>> GetMessagesByInterviewIdAsync(Guid interviewId);
+        Task<Message> GetLastMessageByInterviewRefIdAsync(int refId);
     }
 }

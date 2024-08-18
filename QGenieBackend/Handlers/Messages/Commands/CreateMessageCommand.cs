@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using QGenieBackend.Handlers.Messages.DTOs;
 
-namespace QGenieBackend.Handlers.Interviews.Commands.CreateInterviewMessage
+namespace QGenieBackend.Handlers.Messages.Commands
 {
-    public class CreateInterviewMessageCommand : IRequest<MessageDTO>
+    public class CreateMessageCommand : IRequest<MessageDTO>
     {
         public int InterviewRefId { get; set; }
         public MessageCreationDTO MessageDTO { get; set; }

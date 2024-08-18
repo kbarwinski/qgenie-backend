@@ -11,8 +11,6 @@ namespace QGenieBackend.Contexts
         private readonly ILogger<MongoDbContext> _logger;
 
         // Cached collections
-        private IMongoCollection<Interview> _interviews;
-        private IMongoCollection<Candidate> _candidates;
         private IMongoCollection<Message> _messages;
 
         public MongoDbContext(IConfiguration configuration, ILogger<MongoDbContext> logger)
@@ -39,12 +37,6 @@ namespace QGenieBackend.Contexts
                 logger.LogError(ex, "Failed to ping your deployment. You may not be connected to MongoDB.");
             }
         }
-
-        public IMongoCollection<Interview> Interviews =>
-            _interviews ??= _database.GetCollection<Interview>("Interviews");
-
-        public IMongoCollection<Candidate> Candidates =>
-            _candidates ??= _database.GetCollection<Candidate>("Candidates");
 
         public IMongoCollection<Message> Messages =>
             _messages ??= _database.GetCollection<Message>("Messages");

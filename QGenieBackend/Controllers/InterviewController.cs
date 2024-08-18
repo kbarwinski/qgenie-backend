@@ -1,54 +1,43 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using QGenieBackend.Handlers.Interviews.Commands.CreateInterview;
-using QGenieBackend.Handlers.Interviews.Commands.CreateInterviewMessage;
-using QGenieBackend.Handlers.Interviews.DTOs;
-using QGenieBackend.Handlers.Interviews.Queries.GetInterviewByRefId;
+using QGenieBackend.Handlers.Messages.Commands;
 using QGenieBackend.Handlers.Messages.DTOs;
+using QGenieBackend.Handlers.Messages.Queries.GetLastInterviewMessage;
 
 namespace QGenieBackend.Controllers
 {
-    [ApiController]
-    [Route("api/interviews")]
-    public class InterviewController : ControllerBase
+    namespace QGenieBackend.Controllers
     {
-        private readonly IMediator _mediator;
-
-        public InterviewController(IMediator mediator)
+        [ApiController]
+        [Route("api/interviews")]
+        public class InterviewController : ControllerBase
         {
-            _mediator = mediator;
-        }
+            private readonly IMediator _mediator;
 
-        [HttpPost]
-        public async Task<ActionResult<InterviewDTO>> CreateInterview([FromBody] CreateInterviewCommand command)
-        {
-            var result = await _mediator.Send(command);
+            public InterviewController(IMediator mediator)
+            {
+                _mediator = mediator;
+            }
 
-            return CreatedAtAction(nameof(GetInterviewByRefId), new { refId = result.RefId }, result);
-        }
+            [HttpPost("{refId}/messages")]
+            public async Task<ActionResult<MessageDTO>> CreateMessage(int refId, [FromBody] MessageCreationDTO dto)
+            {
+                var result = await _mediator.Send(new CreateMessageCommand() { InterviewRefId = refId, MessageDTO = dto });
 
-        [HttpGet("{refId}")]
-        public async Task<ActionResult<InterviewDTO>> GetInterviewByRefId(int refId)
-        {
-            var query = new GetInterviewByRefIdQuery { RefId = refId };
+                return Ok(result);
+            }
 
-            var result = await _mediator.Send(query);
-            if (result == null)
-                return NotFound();
+            [HttpGet("{refId}/lastmessage")]
+            public async Task<ActionResult<MessageDTO>> GetLastInterviewMessage(int refId)
+            {
+                var query = new GetLastInterviewMessageQuery { InterviewRefId = refId };
 
-            return Ok(result);
-        }
+                var result = await _mediator.Send(query);
+                if (result == null)
+                    return NotFound();
 
-        [HttpPost("{refId}/query")]
-        public async Task<ActionResult<MessageDTO>> CreateInterviewMessage(int refId, [FromBody] MessageCreationDTO dto)
-        {
-            var result = await _mediator.Send(new CreateInterviewMessageCommand { InterviewRefId = refId, MessageDTO = dto });
-            return CreatedAtAction(
-                "GetMessageById",
-                "Message",
-                new { id = result.Id.ToString() },
-                result
-            );
+                return Ok(result);
+            }
         }
     }
 }
