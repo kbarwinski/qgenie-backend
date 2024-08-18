@@ -16,7 +16,10 @@ namespace QGenieBackend.Handlers.Messages.Commands
         private readonly IQueryGeneratorService _queryGeneratorService;
         private readonly ILLMService _llmService;
 
-        private readonly static string MessageSuffix = "Create a set of interview questions based on the following information: \n\n";
+        private readonly static string MessagePrefix =
+            "Create a set of interview questions based on the following information, provide just enumerated questions list without any additional elements: \n\n";
+
+        private readonly static string MessageSuffix = "";
 
         public CreateMessageCommandHandler(IMessageRepository messageRepository,
             IMapper mapper,
@@ -38,7 +41,7 @@ namespace QGenieBackend.Handlers.Messages.Commands
             message.InterviewRefId = request.InterviewRefId;
 
             var query = _queryGeneratorService.GenerateQueryFromPOCO(message);
-            message.Query = query;
+            message.Query = MessagePrefix + query + MessageSuffix;
 
             _logger.LogInformation($"Sending query to LLM:\n{message.Query}");
 
