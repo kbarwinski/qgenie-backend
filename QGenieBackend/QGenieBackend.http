@@ -1,0 +1,6 @@
+@QGenieBackend_HostAddress = http://localhost:5020
+
+GET {{QGenieBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
