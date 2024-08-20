@@ -15,7 +15,7 @@ namespace QGenieBackend.Services
         public async Task<string> SendQueryAsync(string prompt)
         {
             ChatCompletion completion = _client.CompleteChat(prompt);
-            return completion.ToString();
+            return completion.ToString();   
         }
     }
 }

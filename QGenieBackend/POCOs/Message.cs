@@ -10,8 +10,6 @@ namespace QGenieBackend.POCOs
         public JobDescriptionQueryPart JobDescription { get; set; }
         public JobSeniorityQueryPart JobSeniority { get; set; }
 
-        public CredentialsQueryPart CandidateCredentials { get; set; }
-
         public InterviewCharacterQueryPart InterviewCharacter { get; set; }
         public NotesQueryPart Notes { get; set; }
 

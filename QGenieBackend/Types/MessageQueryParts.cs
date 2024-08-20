@@ -15,10 +15,6 @@
         protected override string Query => "Job seniority level: ${PLACEHOLDER}";
     }
 
-    public class CredentialsQueryPart : QueryPart
-    {
-        protected override string Query => "Interviewed candidate: ${PLACEHOLDER}";
-    }
     public class InterviewCharacterQueryPart : QueryPart
     {
         protected override string Query => "Character of the interview: ${PLACEHOLDER}";
